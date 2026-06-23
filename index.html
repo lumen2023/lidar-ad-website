@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="title" content="LIDAR-AD: A Decoder-Free Latent-Interaction Dreamer with Action-Residual Chains for Autonomous Driving">
+  <meta name="description" content="LIDAR-AD is a decoder-free latent-interaction Dreamer with action-residual chains for autonomous driving, improving risk-aware representation, smooth control, and long-horizon dynamics prediction.">
+  <meta name="keywords" content="Autonomous Driving, World Models, Reinforcement Learning, LiDAR, Latent Representation, Residual Actions, Contrastive Learning, MetaDrive, nuPlan">
+  <meta name="author" content="Yongzhi Liu, Jinchang Xu, Zeng Kang, Sunan Zhang, Weichao Zhuang">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#2563eb">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="LIDAR-AD Project">
+  <meta property="og:title" content="LIDAR-AD: A Decoder-Free Latent-Interaction Dreamer with Action-Residual Chains for Autonomous Driving">
+  <meta property="og:description" content="Decoder-free latent-interaction world modeling with residual-action chains for closed-loop autonomous driving.">
+  <meta property="og:image" content="static/images/LIDAR-AD/01_framework.png">
+  <meta property="og:image:alt" content="LIDAR-AD framework overview">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LIDAR-AD">
+  <meta name="twitter:description" content="A decoder-free latent-interaction Dreamer with action-residual chains for autonomous driving.">
+  <meta name="twitter:image" content="static/images/LIDAR-AD/01_framework.png">
+
+  <meta name="citation_title" content="LIDAR-AD: A Decoder-Free Latent-Interaction Dreamer with Action-Residual Chains for Autonomous Driving">
+  <meta name="citation_author" content="Liu, Yongzhi">
+  <meta name="citation_author" content="Xu, Jinchang">
+  <meta name="citation_author" content="Kang, Zeng">
+  <meta name="citation_author" content="Zhang, Sunan">
+  <meta name="citation_author" content="Zhuang, Weichao">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="Under Review">
+
+  <title>LIDAR-AD | Decoder-Free Latent-Interaction Dreamer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "LIDAR-AD: A Decoder-Free Latent-Interaction Dreamer with Action-Residual Chains for Autonomous Driving",
+    "description": "LIDAR-AD learns compact risk-aware latent representations without observation reconstruction, models continuous control with residual actions, and aligns residual-action-chain rollouts with future latent states for autonomous driving.",
+    "author": [
+      {"@type": "Person", "name": "Yongzhi Liu", "affiliation": {"@type": "Organization", "name": "Southeast University"}},
+      {"@type": "Person", "name": "Jinchang Xu", "affiliation": {"@type": "Organization", "name": "Southeast University"}},
+      {"@type": "Person", "name": "Zeng Kang", "affiliation": {"@type": "Organization", "name": "Southeast University"}},
+      {"@type": "Person", "name": "Sunan Zhang", "affiliation": {"@type": "Organization", "name": "Southeast University"}},
+      {"@type": "Person", "name": "Weichao Zhuang", "affiliation": {"@type": "Organization", "name": "Southeast University"}}
+    ],
+    "datePublished": "2026",
+    "isAccessibleForFree": true,
+    "keywords": ["Autonomous driving", "World models", "Reinforcement learning", "Latent representation", "Residual actions", "Contrastive learning"]
+  }
+  </script>
+</head>
+<body>
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Back to top" aria-label="Back to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <nav class="project-navbar" aria-label="Main navigation">
+    <div class="project-navbar-inner">
+      <a class="project-brand" href="#home">LIDAR-AD</a>
+      <div class="project-nav-links">
+        <a href="#home">Home</a>
+        <a href="#motivation">Motivation</a>
+        <a href="#case-study">Case Study</a>
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#download">Download</a>
+        <a href="#citation">Citation</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <section class="hero project-hero" id="home">
+      <div class="hero-body">
+        <div class="container is-widescreen has-text-centered">
+          <h1 class="title is-1 publication-title">
+            LIDAR-AD:
+          </h1>
+          <p class="project-subtitle">
+            A Decoder-Free Latent-Interaction Dreamer<br class="is-hidden-mobile">
+            with Action-Residual Chains for Autonomous Driving
+          </p>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Yongzhi Liu,</span>
+            <span class="author-block">Jinchang Xu,</span>
+            <span class="author-block">Zeng Kang,</span>
+            <span class="author-block">Sunan Zhang,</span>
+            <span class="author-block">Weichao Zhuang</span>
+          </div>
+
+          <div class="is-size-5 publication-authors project-affiliation">
+            School of Mechanical Engineering, Southeast University
+            <br>
+            Email:
+            <a href="mailto:yongzhiliu@seu.edu.cn">yongzhiliu@seu.edu.cn</a>
+            <span class="contact-separator">/</span>
+            Advisor:
+            <a href="mailto:wezhuang@seu.edu.cn">Weichao Zhuang</a>
+            (<a href="mailto:wezhuang@seu.edu.cn">wezhuang@seu.edu.cn</a>)
+          </div>
+
+          <div class="publication-links">
+            <button class="button is-normal is-rounded is-dark coming-soon-button" type="button" disabled>
+              <span class="icon"><i class="fas fa-file-pdf"></i></span>
+              <span>Paper</span>
+              <span class="soon-tag">Coming soon</span>
+            </button>
+            <button class="button is-normal is-rounded is-dark coming-soon-button" type="button" disabled>
+              <span class="icon"><i class="fab fa-github"></i></span>
+              <span>Code</span>
+              <span class="soon-tag">Coming soon</span>
+            </button>
+            <button class="button is-normal is-rounded is-dark coming-soon-button" type="button" disabled>
+              <span class="icon"><i class="fas fa-database"></i></span>
+              <span>Dataset</span>
+              <span class="soon-tag">Coming soon</span>
+            </button>
+            <button class="button is-normal is-rounded is-dark coming-soon-button" type="button" disabled>
+              <span class="icon"><i class="fas fa-download"></i></span>
+              <span>Checkpoints</span>
+              <span class="soon-tag">Coming soon</span>
+            </button>
+          </div>
+
+          <figure class="hero-framework">
+            <img src="static/images/LIDAR-AD/01_framework.png" alt="LIDAR-AD framework overview">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light compact-section" id="motivation">
+      <div class="container is-widescreen">
+        <div class="motivation-layout">
+          <div class="motivation-copy">
+            <p class="section-kicker">Problem Motivation</p>
+            <h2 class="title is-3">Driving Control Is a Residual Process</h2>
+            <p>
+              Closed-loop driving should not be treated as repeatedly choosing unrelated absolute actions.
+              Real steering and longitudinal commands evolve through small, coherent updates around the previous control command.
+              This observation motivates LIDAR-AD's residual-action formulation and action-residual-chain modeling.
+            </p>
+          </div>
+          <figure class="motivation-figure">
+            <img src="static/images/LIDAR-AD/00_residual_action_horizon.png" alt="Residual-action horizon analysis" loading="lazy">
+            <figcaption>
+              Residual-action statistics show that consecutive driving commands occupy a much more compact space than absolute action chains, providing a natural smooth-control prior.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compact-section" id="case-study">
+      <div class="container is-widescreen">
+        <h2 class="title is-3 section-title">Case Study &amp; Analysis</h2>
+
+        <article class="case-video-card mixed-case-showcase">
+            <video class="case-video" controls autoplay muted loop playsinline preload="metadata" src="static/videos/metadrive-scene/mixed/LIDAR-AD_seed100_mix_density0.4.mp4"></video>
+            <div class="case-video-copy">
+              <h3 class="case-video-title">MetaDrive Mixed Traffic</h3>
+              <p>Dense mixed-road driving is shown as the primary large-scale demonstration. Videos play at 1.5x speed.</p>
+            </div>
+            <div class="case-options">
+              <button class="case-choice is-active" type="button" data-video="static/videos/metadrive-scene/mixed/LIDAR-AD_seed100_mix_density0.4.mp4" data-title="MetaDrive Mixed Traffic">LIDAR-AD</button>
+              <button class="case-choice" type="button" data-video="static/videos/metadrive-scene/mixed/lattice_front_frames_3eds_ep002_seed147.mp4" data-title="Mixed Traffic Baseline 1">Case 1</button>
+              <button class="case-choice" type="button" data-video="static/videos/metadrive-scene/mixed/lattice_front_frames_3eds_ep006_seed139.mp4" data-title="Mixed Traffic Baseline 2">Case 2</button>
+            </div>
+        </article>
+
+        <div class="case-video-grid" aria-label="Driving demonstration video panels">
+
+          <article class="case-video-card">
+            <video class="case-video" controls autoplay muted loop playsinline preload="metadata" src="static/videos/metadrive-scene/roundout/0.5/ep000_seed1000.mp4"></video>
+            <div class="case-video-copy">
+              <h3 class="case-video-title">Roundabout</h3>
+              <p>Closed-loop negotiation around unseen roundabout layouts.</p>
+            </div>
+            <div class="case-options">
+              <button class="case-choice is-active" type="button" data-video="static/videos/metadrive-scene/roundout/0.5/ep000_seed1000.mp4" data-title="Roundabout Case 1">Case 1</button>
+              <button class="case-choice" type="button" data-video="static/videos/metadrive-scene/roundout/0.5/ep002_seed1002.mp4" data-title="Roundabout Case 2">Case 2</button>
+              <button class="case-choice" type="button" data-video="static/videos/metadrive-scene/roundout/0.5/ep003_seed1003.mp4" data-title="Roundabout Case 3">Case 3</button>
+            </div>
+          </article>
+
+          <article class="case-video-card">
+            <video class="case-video" controls autoplay muted loop playsinline preload="metadata" src="static/videos/metadrive-scene/T-intersection/ep000_seed1000.mp4"></video>
+            <div class="case-video-copy">
+              <h3 class="case-video-title">T-Intersection</h3>
+              <p>Decision making through intersection conflict regions.</p>
+            </div>
+            <div class="case-options">
+              <button class="case-choice is-active" type="button" data-video="static/videos/metadrive-scene/T-intersection/ep000_seed1000.mp4" data-title="T-Intersection Case 1">Case 1</button>
+              <button class="case-choice" type="button" data-video="static/videos/metadrive-scene/T-intersection/ep002_seed1002.mp4" data-title="T-Intersection Case 2">Case 2</button>
+              <button class="case-choice" type="button" data-video="static/videos/metadrive-scene/T-intersection/ep005_seed1000.mp4" data-title="T-Intersection Case 3">Case 3</button>
+            </div>
+          </article>
+
+          <article class="case-video-card">
+            <video class="case-video" controls autoplay muted loop playsinline preload="metadata" src="static/videos/nuplan/render1/front.mp4"></video>
+            <div class="case-video-copy">
+              <h3 class="case-video-title">nuPlan Front View</h3>
+              <p>Front-view rendering on nuPlan-style urban scenarios.</p>
+            </div>
+            <div class="case-options">
+              <button class="case-choice is-active" type="button" data-video="static/videos/nuplan/render1/front.mp4" data-title="nuPlan Front Case 1">Case 1</button>
+              <button class="case-choice" type="button" data-video="static/videos/nuplan/render2/front.mp4" data-title="nuPlan Front Case 2">Case 2</button>
+              <button class="case-choice" type="button" data-video="static/videos/nuplan/render3/front.mp4" data-title="nuPlan Front Case 3">Case 3</button>
+            </div>
+          </article>
+
+          <article class="case-video-card">
+            <video class="case-video" controls autoplay muted loop playsinline preload="metadata" src="static/videos/nuplan/render1/bev.mp4"></video>
+            <div class="case-video-copy">
+              <h3 class="case-video-title">nuPlan BEV</h3>
+              <p>Bird's-eye-view rendering synchronized with the nuPlan cases.</p>
+            </div>
+            <div class="case-options">
+              <button class="case-choice is-active" type="button" data-video="static/videos/nuplan/render1/bev.mp4" data-title="nuPlan BEV Case 1">Case 1</button>
+              <button class="case-choice" type="button" data-video="static/videos/nuplan/render2/bev.mp4" data-title="nuPlan BEV Case 2">Case 2</button>
+              <button class="case-choice" type="button" data-video="static/videos/nuplan/render3/bev.mp4" data-title="nuPlan BEV Case 3">Case 3</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light compact-section" id="abstract">
+      <div class="container is-widescreen">
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3 section-title has-text-centered">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                Autonomous driving requires long-horizon closed-loop decision making in highly dynamic traffic environments.
+                Latent world models offer an effective framework for this problem by enabling imagination-based decision making in compact latent spaces.
+                However, multi-source driving observations contain substantial control-irrelevant redundancy, while reliable decisions depend on risk-relevant relations and future dynamics.
+                Moreover, vehicle control evolves continuously and incrementally, requiring the model to capture action adjustments and their multi-step effects.
+                Existing methods still rely on observation reconstruction and absolute action modeling, which may emphasize task-irrelevant details and weaken risk-aware representation learning and continuous-control modeling.
+              </p>
+              <p>
+                We propose LIDAR-AD, a decoder-free Latent-Interaction Dreamer with Action-Residual Chains for autonomous driving.
+                Instead of reconstructing observations, LIDAR-AD learns compact latent representations through redundancy-reduced alignment, enabling the model to focus on risk-relevant relations in multi-source driving inputs.
+                To better capture the continuous and incremental nature of vehicle control, LIDAR-AD formulates policy outputs as residual action updates and introduces residual-action chain contrastive learning to extract temporal dependencies from residual-action sequences for multi-step continuous decision making.
+                These designs jointly improve risk-aware state abstraction, continuous control modeling, and long-horizon dynamics prediction.
+              </p>
+              <p>
+                Extensive experiments across diverse simulated driving scenarios demonstrate that LIDAR-AD consistently outperforms strong world-model baselines, achieving the highest reward and the best success rate among learning-based methods.
+                Evaluations on the nuPlan benchmark further demonstrate its effectiveness on real-world driving data.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compact-section" id="method">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 section-title has-text-centered">Methodology</h2>
+
+        <figure class="method-overview">
+          <img src="static/images/LIDAR-AD/01_framework.png" alt="LIDAR-AD method overview">
+          <figcaption>
+            LIDAR-AD shares one RSSM latent state across representation learning, residual-action control, and residual-action-chain rollout alignment.
+          </figcaption>
+        </figure>
+
+        <div class="method-cards">
+          <article class="method-card">
+            <div class="method-media">
+              <img src="static/images/LIDAR-AD/02_DLIR-framework.png" alt="Decoder-Free Latent Interaction Representation">
+            </div>
+            <div class="method-copy">
+              <h3>DLIR: Decoder-Free Latent Interaction Representation</h3>
+              <p>
+                DLIR removes dense observation reconstruction and instead encodes ego state, LiDAR-like range sensing, navigation context, and a deterministic risk descriptor into a compact interaction-aware embedding.
+                Gated pairwise interactions and redundancy reduction guide the RSSM posterior toward risk-relevant structure.
+              </p>
+            </div>
+          </article>
+
+          <article class="method-card method-card-reverse">
+            <div class="method-media">
+              <img src="static/images/LIDAR-AD/04_COA_framework.png" alt="Residual-action world model">
+            </div>
+            <div class="method-copy">
+              <h3>RAWM: Residual-Action World Model</h3>
+              <p>
+                RAWM models vehicle control as incremental evolution in pre-tanh action space.
+                The actor predicts a residual update around the previous command, and the transition model conditions on both the executed action and residual adjustment, introducing a smooth-control prior for long-horizon driving.
+              </p>
+            </div>
+          </article>
+
+          <article class="method-card">
+            <div class="method-media">
+              <img src="static/images/LIDAR-AD/09_action_comparison.png" alt="Residual action smoothness comparison">
+            </div>
+            <div class="method-copy">
+              <h3>ARC-CL: Residual-Action Chain Contrastive Learning</h3>
+              <p>
+                ARC-CL forms short chains of residual-action embeddings and aligns the K-step prior rollout with the true future posterior state.
+                This contrastive objective strengthens the world model's ability to distinguish action sequences that lead to different future driving states.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="analysis-grid">
+          <figure>
+            <img src="static/images/LIDAR-AD/07_barlow_representation.png" alt="Latent representation cross-correlation analysis" loading="lazy">
+            <figcaption>Latent cross-correlation analysis visualizes redundancy reduction in learned representations.</figcaption>
+          </figure>
+          <figure>
+            <img src="static/images/LIDAR-AD/03_feature_aware_alignment_bias.png" alt="Feature-aware alignment bias analysis" loading="lazy">
+            <figcaption>Feature-aware alignment analysis illustrates cross-modal representation behavior.</figcaption>
+          </figure>
+        </div>
+
+        <div class="risk-field-panel">
+          <figure class="risk-field-figure">
+            <img src="static/images/LIDAR-AD/03_driving_risk_field.png" alt="Driving risk field visualization" loading="lazy">
+            <figcaption>The rule-based driving risk field highlights safety-relevant structure from ego, LiDAR, and navigation context.</figcaption>
+          </figure>
+          <article class="case-video-card risk-video-card">
+            <video class="case-video" controls autoplay muted loop playsinline preload="metadata" src="static/videos/risk_field/215BDA927CCDA3160BC32E46FB5FC41E.mp4"></video>
+            <div class="case-video-copy">
+              <h3 class="case-video-title">Risk Field Dynamics</h3>
+              <p>Dynamic risk-field evolution synchronized with safety-relevant driving context.</p>
+            </div>
+            <div class="case-options">
+              <button class="case-choice is-active" type="button" data-video="static/videos/risk_field/215BDA927CCDA3160BC32E46FB5FC41E.mp4" data-title="Risk Field Case 1">Case 1</button>
+              <button class="case-choice" type="button" data-video="static/videos/risk_field/7CB3BFDE3334D633DF36E6764335B96E.mp4" data-title="Risk Field Case 2">Case 2</button>
+              <button class="case-choice" type="button" data-video="static/videos/risk_field/B2DD5AD354955C4EBBF863EB99DF52BF.mp4" data-title="Risk Field Case 3">Case 3</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light compact-section" id="results">
+      <div class="container is-max-widescreen">
+        <h2 class="title is-3 section-title has-text-centered">Experimental Results</h2>
+
+        <div class="columns is-centered">
+          <div class="column is-10">
+            <div class="content has-text-centered results-lead">
+              <p>
+                Across mixed scene, roundabout, T-intersection, and nuPlan benchmarks, LIDAR-AD achieves the highest reward in all scenarios and the highest average success rate among learning-based methods.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-summary-grid" aria-label="Key result summary">
+          <article>
+            <span>Average Success</span>
+            <strong>94.81%</strong>
+            <p>Best learning-based mean success across four benchmarks.</p>
+          </article>
+          <article>
+            <span>Mixed Scene</span>
+            <strong>936.41</strong>
+            <p>Highest reward with 94.80% success.</p>
+          </article>
+          <article>
+            <span>Roundabout</span>
+            <strong>967.41</strong>
+            <p>Strongest reward and success among all methods.</p>
+          </article>
+          <article>
+            <span>nuPlan</span>
+            <strong>259.74</strong>
+            <p>Highest reward and fastest learned policy speed.</p>
+          </article>
+        </div>
+
+        <div class="table-container results-table-container">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth results-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Method</th>
+                <th colspan="3">Mixed Scene</th>
+                <th colspan="3">Roundabout</th>
+                <th colspan="3">T-Intersection</th>
+                <th colspan="3">nuPlan</th>
+              </tr>
+              <tr>
+                <th>Reward</th>
+                <th>Success (%)</th>
+                <th>Speed</th>
+                <th>Reward</th>
+                <th>Success (%)</th>
+                <th>Speed</th>
+                <th>Reward</th>
+                <th>Success (%)</th>
+                <th>Speed</th>
+                <th>Reward</th>
+                <th>Success (%)</th>
+                <th>Speed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>IDM</td>
+                <td>-259.01 &plusmn; 0.00</td><td>49.42 &plusmn; 0.00</td><td>24.22 &plusmn; 0.00</td>
+                <td>-245.00 &plusmn; 6.00</td><td>10.77 &plusmn; 0.25</td><td>24.62 &plusmn; 0.45</td>
+                <td>-276.00 &plusmn; 8.00</td><td>20.67 &plusmn; 0.45</td><td>23.32 &plusmn; 0.55</td>
+                <td>122.41 &plusmn; 10.44</td><td><strong>99.07 &plusmn; 1.42</strong></td><td>23.95 &plusmn; 0.88</td>
+              </tr>
+              <tr>
+                <td>SAC</td>
+                <td>420.99 &plusmn; 43.93</td><td>27.20 &plusmn; 9.17</td><td>31.46 &plusmn; 1.20</td>
+                <td>454.99 &plusmn; 36.14</td><td>73.40 &plusmn; 6.75</td><td>31.26 &plusmn; 0.94</td>
+                <td>384.99 &plusmn; 41.09</td><td>79.40 &plusmn; 8.74</td><td>29.86 &plusmn; 1.09</td>
+                <td>194.69 &plusmn; 12.28</td><td>84.33 &plusmn; 1.67</td><td>29.76 &plusmn; 1.04</td>
+              </tr>
+              <tr>
+                <td>PPO</td>
+                <td>136.42 &plusmn; 10.35</td><td>6.26 &plusmn; 3.12</td><td>43.96 &plusmn; 1.89</td>
+                <td>151.42 &plusmn; 8.51</td><td>18.66 &plusmn; 2.30</td><td>43.46 &plusmn; 1.47</td>
+                <td>120.42 &plusmn; 9.68</td><td>14.16 &plusmn; 2.97</td><td>41.76 &plusmn; 1.72</td>
+                <td>146.23 &plusmn; 38.15</td><td>85.00 &plusmn; 5.40</td><td>26.51 &plusmn; 6.41</td>
+              </tr>
+              <tr>
+                <td>DreamerV3</td>
+                <td>802.48 &plusmn; 109.65</td><td>85.75 &plusmn; 4.68</td><td>23.39 &plusmn; 5.64</td>
+                <td>836.48 &plusmn; 85.05</td><td>85.64 &plusmn; 0.83</td><td>24.29 &plusmn; 4.15</td>
+                <td>768.48 &plusmn; 96.69</td><td>81.64 &plusmn; 1.07</td><td>22.39 &plusmn; 4.84</td>
+                <td>87.30 &plusmn; 6.40</td><td>87.30 &plusmn; 6.40</td><td>26.29 &plusmn; 3.29</td>
+              </tr>
+              <tr>
+                <td>R2Dreamer</td>
+                <td>861.14 &plusmn; 66.20</td><td>90.38 &plusmn; 5.37</td><td>25.22 &plusmn; 1.73</td>
+                <td>895.14 &plusmn; 51.35</td><td>91.78 &plusmn; 3.73</td><td>25.82 &plusmn; 1.27</td>
+                <td>827.14 &plusmn; 58.38</td><td>88.18 &plusmn; 4.82</td><td>24.12 &plusmn; 1.48</td>
+                <td>233.24 &plusmn; 12.28</td><td>91.27 &plusmn; 1.67</td><td>30.16 &plusmn; 1.04</td>
+              </tr>
+              <tr class="ours-row">
+                <td><strong>LIDAR-AD (Ours)</strong></td>
+                <td><strong>936.41 &plusmn; 21.04</strong></td><td><strong>94.80 &plusmn; 3.90</strong></td><td>30.02 &plusmn; 0.23</td>
+                <td><strong>967.41 &plusmn; 17.31</strong></td><td><strong>94.46 &plusmn; 2.26</strong></td><td>30.27 &plusmn; 0.18</td>
+                <td><strong>919.41 &plusmn; 19.68</strong></td><td><strong>92.36 &plusmn; 2.93</strong></td><td>29.47 &plusmn; 0.21</td>
+                <td><strong>259.74 &plusmn; 9.21</strong></td><td>97.60 &plusmn; 3.20</td><td>31.26 &plusmn; 0.78</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="table-note">
+          Values are mean &plusmn; standard deviation. Bold marks the best reward and success result in each scenario group.
+        </p>
+
+        <div class="results-figures">
+          <figure>
+            <img src="static/images/LIDAR-AD/05_traing_curve.png" alt="Training curves for LIDAR-AD and baselines" loading="lazy">
+            <figcaption>Training curves compare return and success trends across learning methods.</figcaption>
+          </figure>
+          <figure>
+            <img src="static/images/LIDAR-AD/08_ablation_performance_spectrum.png" alt="Ablation performance spectrum" loading="lazy">
+            <figcaption>The performance spectrum summarizes module contributions across evaluation dimensions.</figcaption>
+          </figure>
+        </div>
+
+        <div class="ood-panel">
+          <h3 class="title is-4">Generalization to Unseen Scenarios</h3>
+          <div class="ood-grid">
+            <figure>
+              <img src="static/images/LIDAR-AD/06_OOD-Mixed.png" alt="OOD mixed traffic scenario" loading="lazy">
+              <figcaption>Mixed Traffic</figcaption>
+            </figure>
+            <figure>
+              <img src="static/images/LIDAR-AD/06_OOD-roundout.png" alt="OOD roundabout scenario" loading="lazy">
+              <figcaption>Roundabout</figcaption>
+            </figure>
+            <figure>
+              <img src="static/images/LIDAR-AD/06_OOD-T-intersection.png" alt="OOD T-intersection scenario" loading="lazy">
+              <figcaption>T-Intersection</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compact-section" id="download">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 section-title has-text-centered">Checkpoints And Datasets</h2>
+        <div class="resource-grid">
+          <article class="resource-card">
+            <h3>Paper</h3>
+            <p>The manuscript link will be released after public posting.</p>
+            <button class="button is-dark is-rounded coming-soon-button" type="button" disabled>Coming soon</button>
+          </article>
+          <article class="resource-card">
+            <h3>Code</h3>
+            <p>Implementation and reproducibility scripts will be made available.</p>
+            <button class="button is-dark is-rounded coming-soon-button" type="button" disabled>Coming soon</button>
+          </article>
+          <article class="resource-card">
+            <h3>Dataset</h3>
+            <p>Scenario configuration and processed benchmark data will be released.</p>
+            <button class="button is-dark is-rounded coming-soon-button" type="button" disabled>Coming soon</button>
+          </article>
+          <article class="resource-card">
+            <h3>Checkpoints</h3>
+            <p>Trained model checkpoints will be provided with the code release.</p>
+            <button class="button is-dark is-rounded coming-soon-button" type="button" disabled>Coming soon</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light compact-section" id="citation">
+      <div class="container is-max-desktop content">
+        <div class="bibtex-header">
+          <h2 class="title">Citation</h2>
+          <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard" type="button">
+            <i class="fas fa-copy"></i>
+            <span class="copy-text">Copy</span>
+          </button>
+        </div>
+        <pre id="bibtex-code"><code>@article{liu2026lidarad,
+  title={LIDAR-AD: A Decoder-Free Latent-Interaction Dreamer with Action-Residual Chains for Autonomous Driving},
+  author={Liu, Yongzhi and Xu, Jinchang and Kang, Zeng and Zhang, Sunan and Zhuang, Weichao},
+  journal={Under Review},
+  year={2026}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer project-footer">
+    <div class="container is-max-desktop">
+      <div class="content has-text-centered">
+        <h4>LIDAR-AD</h4>
+        <p>A Decoder-Free Latent-Interaction Dreamer with Action-Residual Chains for Autonomous Driving.</p>
+        <p>
+          For questions about this work, please contact
+          <a href="mailto:yongzhiliu@seu.edu.cn">yongzhiliu@seu.edu.cn</a>
+          or advisor Weichao Zhuang at
+          <a href="mailto:wezhuang@seu.edu.cn">wezhuang@seu.edu.cn</a>.
+        </p>
+        <p class="template-credit">
+          Page structure follows the academic project-page style and uses Bulma.
+        </p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

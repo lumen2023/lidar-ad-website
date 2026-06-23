@@ -1,144 +1,131 @@
-# 学术项目网站快速搭建指南（中文）
+# LIDAR-AD：面向自动驾驶的无解码器潜在交互 Dreamer 与残差动作链
 
-这是一个学术项目网页模板，适用于展示论文、项目、代码、演示视频和海报等内容。你已经通过 `git clone` 下载了本仓库，下面说明如何基于该模板快速制作自己的学术网站。
+[![Project Page](https://img.shields.io/badge/项目主页-在线-blue?style=flat-square)](https://lumen2023.github.io/lidar-ad-website/)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg?style=flat-square)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![Paper](https://img.shields.io/badge/论文-审稿中-red?style=flat-square)]()
 
----
+**刘永志，许锦昌，康增，张苏楠，庄伟超**
 
-## 1. 目录结构
+东南大学 机械工程学院 · 南京 211189
 
-- `index.html`：网站主页，所有文本、链接、图片、视频、海报内容都在此文件中编辑。
-- `static/css/`：页面样式文件。主要包括 `bulma.min.css` 和 `index.css`。
-- `static/js/`：页面交互脚本。包含复制 BibTeX、下拉菜单、滚动按钮等功能。
-- `static/images/`：图片资源，放置展示图、流程图、示意图、favicon 等。
-- `static/videos/`：演示视频文件。
-- `static/pdfs/`：论文 PDF、补充材料 PDF、海报 PDF 等。
+📧 yongzhiliu@seu.edu.cn · 📧 wezhuang@seu.edu.cn（通讯作者）
 
----
-
-## 2. 先决条件
-
-你不需要编写复杂前端代码，修改现有模板即可。推荐工具：
-
-- VS Code 或其他文本编辑器
-- 浏览器（Chrome、Firefox、Safari 等）
-- 本地静态服务器（可选，用于本地预览）
-
-本模板适合直接部署到 GitHub Pages、Netlify、Vercel 等静态网站托管服务。
+**审稿中** · IEEE Transactions on Knowledge and Data Engineering (TKDE)
 
 ---
 
-## 3. 修改步骤
+## 📄 摘要
 
-### 3.1 修改页面元信息
+自动驾驶需要在高度动态的交通环境中进行长时序闭环决策。潜在世界模型通过在紧凑潜在空间中进行想象力推演，为此问题提供了有效框架。然而，多源驾驶观测中包含大量与控制任务无关的冗余信息，而可靠的决策依赖于风险相关的关系和未来动态。此外，车辆控制是连续且增量式演化的，这要求模型能够捕捉动作调整及其多步效应。
 
-打开 `index.html`，定位到 `<head>` 部分，替换以下内容：
+我们提出 **LIDAR-AD**——一种无需解码器、基于潜在交互感知与残差动作链的 Dreamer 模型。LIDAR-AD 不重建观测，而是通过**去冗余对齐**学习紧凑的潜在表征，使模型聚焦于多源驾驶输入中与风险相关的交互关系。为更好地捕捉车辆控制的连续性与增量性，LIDAR-AD 将策略输出形式化为**残差动作更新**，并引入**残差动作链对比学习**，从残差动作序列中提取时序依赖以支撑多步连续决策。
 
-- `meta[name="title"]`：论文标题 + 作者。
-- `meta[name="description"]`：研究摘要，建议 150-160 个字符。
-- `meta[name="keywords"]`：关键词，用逗号分隔。
-- `meta[name="author"]`：作者列表。
-- `og:title` / `og:description` / `og:image`：社交媒体分享用预览信息。
-- `twitter:*`：Twitter 分享信息。
-- `citation_title` / `citation_author` / `citation_publication_date` / `citation_conference_title` / `citation_pdf_url`：学术引用信息。
-- `title`：浏览器标签上的标题。
-- `link rel="icon"`：替换为你自己的 `favicon.ico`。
-
-这些元信息不仅影响 SEO，还能提升页面在社交媒体和 Google Scholar 中的展示效果。
-
-### 3.2 修改首页内容
-
-在页面主体中，替换以下部分：
-
-- 论文标题、作者、单位、日期。
-- `publication-links` 区域中的 `Paper`、`Supplementary`、`Code`、`arXiv` 按钮链接。
-- `video` 部分中的 `source src="static/videos/....mp4"`，替换为你的演示视频文件。
-- 视频下方的说明文字。
-- `Abstract` 区域中的论文摘要。
-- 图片和文本区域中的图像路径与解释文字。
-- `BibTeX` 代码块中的引用格式。
-
-### 3.3 替换文件资源
-
-- `static/images/`：把你的展示图、流程图、结果图、封面图等放到该目录。
-- `static/videos/`：把你的演示视频或实验视频复制到该目录。
-- `static/pdfs/`：把论文 PDF、补充材料、海报等放到该目录。
-- `static/images/favicon.ico`：更换为你的站点图标。
-
-建议：
-
-- 图片压缩后再上传，减少页面加载时间。
-- 视频文件较大时优先使用第三方视频平台如 YouTube，再通过 iframe 嵌入。
-
-### 3.4 可选模块
-
-该模板包含多个可选内容块，可根据需要打开或注释：
-
-- 图像轮播（carousel）
-- YouTube 视频嵌入
-- 视频轮播
-- PDF 海报预览
-- `More Works` 相关工作下拉菜单
-
-如果不需要某个区块，可以直接删除对应的 HTML 代码，或者保留并将 `style="display: none;"` 改为 `display: block;`。
+在多种模拟驾驶场景上的大量实验表明，LIDAR-AD 一致且显著地优于强世界模型基线，取得了最高奖励和最佳成功率。在 nuPlan 基准上的评估进一步验证了该方法在真实世界驾驶数据上的有效性。
 
 ---
 
-## 4. 本地预览
+## 🔑 核心贡献
 
-建议先在本地打开页面预览：
+1. **无解码器潜在交互表征（DLIR）** — 通过对多源观测（自车状态、LiDAR 点云、导航地图）进行门控融合与去冗余对齐，消除观测重建，建立交互感知的潜在表征。
 
-方法一：直接打开 `index.html`。
-方法二：使用本地服务器，例如：
+2. **残差动作世界模型（RAWM）** — 将策略重新形式化为残差更新而非绝对动作，通过联合动作嵌入同时捕捉当前动作及其调整量。
 
-```bash
-python3 -m http.server 8000
+3. **残差动作链对比学习（ARC-CL）** — 引入 K 步动作链对比学习，利用未来动作序列作为正样本约束先验 rollout 动态。
+
+---
+
+## 🧠 方法概览
+
+<p align="center">
+  <img src="static/images/LIDAR-AD/01_framework.png" alt="LIDAR-AD 框架图" width="85%">
+</p>
+
+LIDAR-AD 包含三个共享统一 RSSM 潜在状态 $s_t = (h_t, z_t)$ 的核心模块：
+
+| 模块       | 功能                                                      |
+|------------|-----------------------------------------------------------|
+| **DLIR**   | 将异构观测编码为风险感知的潜在表征，无需重建 |
+| **RAWM**   | 通过残差调整与联合动作嵌入建模连续控制 |
+| **ARC-CL**  | 通过对动作链的对比学习，强制执行多步时序一致性 |
+
+---
+
+## 🎥 驾驶演示
+
+我们在多种驾驶场景中评估了 LIDAR-AD：
+
+- **MetaDrive 模拟器** — 混合交通、环岛、T 型路口
+- **nuPlan 基准** — 真实驾驶数据的前视图与鸟瞰视图
+- **风险场可视化** — 复杂交通场景中习得的风险感知表征
+
+👉 **[访问项目主页](https://lumen2023.github.io/lidar-ad-website/)** 查看交互式视频对比与消融研究。
+
+---
+
+## 📊 主要结果
+
+在 MetaDrive 和 nuPlan 基准上的广泛实验表明：
+
+- **任务性能优越** — LIDAR-AD 在学习型世界模型方法中取得最高的回合奖励和成功率
+- **潜在表征质量更佳** — 无解码器表征提升风险感知能力与分布外泛化性能
+- **控制更平滑** — 残差动作建模显著降低动作 jerk，提升轨迹平滑度
+- **泛化能力强** — 在未见过的交通密度、道路布局和交互模式上均有一致提升
+
+---
+
+## 🗂️ 项目结构
+
+```
+.
+├── index.html              # 项目主页
+├── static/
+│   ├── css/                # 样式文件 (Bulma, Font Awesome, 自定义)
+│   ├── js/                 # 交互脚本 (轮播图, BibTeX 复制等)
+│   ├── images/LIDAR-AD/    # 图片与示意图
+│   └── videos/             # 驾驶演示视频 (MP4)
+│       ├── metadrive-scene/   # MetaDrive 场景
+│       ├── nuplan/            # nuPlan 基准
+│       └── risk_field/        # 风险场动态
+└── README.md
 ```
 
-然后访问 `http://localhost:8000`。
+---
+
+## 🖥️ 本地开发
+
+```bash
+# 启动本地服务器
+python3 -m http.server 8000
+
+# 浏览器打开 http://localhost:8000
+```
 
 ---
 
-## 5. 部署网站
+## 📝 引用
 
-### 5.1 GitHub Pages
+如果您觉得本工作有帮助，请引用：
 
-1. 将仓库推送到 GitHub。
-2. 在仓库设置中启用 GitHub Pages，选择 `main` 或 `master` 分支的 `root`。
-3. 等待页面发布即可。
-
-### 5.2 其他静态托管
-
-- Netlify：直接连接 GitHub 仓库并部署。
-- Vercel：选择静态站点部署即可。
-
----
-
-## 6. 进一步优化建议
-
-- 生成 1200x630 的社交分享图像并替换 `og:image`。
-- 将论文 PDF、补充材料、海报等资源放入 `static/pdfs/`。
-- 检查 `index.js` 是否包含你需要的脚本行为，如果不需要可删除冗余内容。
-- 确保 `static/css/index.css` 与页面内容配合良好。
+```bibtex
+@article{liu2026lidarad,
+  title   = {{LIDAR-AD}: A Decoder-Free Latent-Interaction Dreamer
+             with Action-Residual Chains for Autonomous Driving},
+  author  = {Liu, Yongzhi and Xu, Jinchang and Kang, Zeng
+             and Zhang, Sunan and Zhuang, Weichao},
+  journal = {IEEE Transactions on Knowledge and Data Engineering},
+  note    = {Under Review},
+  year    = {2026}
+}
+```
 
 ---
 
-## 7. 常见问题
+## 📜 许可证
 
-- 如果页面加载不出图像，确认 `src` 路径是否正确。
-- 如果视频无法播放，检查文件格式是否为 MP4，并确认浏览器支持。
-- 如果 `BibTeX` 复制按钮无效，检查 `static/js/index.js` 是否被正确加载。
+本项目主页采用 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) 许可。LIDAR-AD 代码和模型权重将另行发布。
 
 ---
 
-## 8. 总结
+## 🙏 致谢
 
-本仓库是一个学术项目网页模板，主要通过修改 `index.html` 和替换 `static/` 下的资源来完成内容定制。
-
-步骤总结：
-
-1. 编辑 `index.html` 中的元信息和页面内容。
-2. 替换图片、视频、PDF 资源。
-3. 本地预览并确认效果。
-4. 部署到 GitHub Pages 或其他静态托管服务。
-
-祝你的网站制作顺利！
+本主页模板基于 [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template) 和 [Nerfies](https://nerfies.github.io/) 主页修改。

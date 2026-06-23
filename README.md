@@ -1,80 +1,132 @@
-# Academic Project Page Template
+# LIDAR-AD: A Decoder-Free Latent-Interaction Dreamer with Action-Residual Chains for Autonomous Driving
 
-> **Update (September 2025)**: This template has been modernized with better design, SEO, and mobile support. For the original version, see the [original-version branch](https://github.com/eliahuhorwitz/Academic-project-page-template/tree/original-version).
+[![Project Page](https://img.shields.io/badge/Project-Page-blue?style=flat-square)](https://lumen2023.github.io/lidar-ad-website/)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg?style=flat-square)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![Paper](https://img.shields.io/badge/Paper-Under%20Review-red?style=flat-square)]()
+[![Code](https://img.shields.io/badge/Code-Coming%20Soon-lightgrey?style=flat-square)]()
 
-A clean, responsive template for academic project pages.
+**Yongzhi Liu**, Jinchang Xu, Zeng Kang, Sunan Zhang, Weichao Zhuang
 
+School of Mechanical Engineering, Southeast University, Nanjing 211189, China
 
-Example project pages built using this template are:
-- https://horwitz.ai/probex
-- https://vision.huji.ac.il/probegen
-- https://horwitz.ai/mother
-- https://horwitz.ai/spectral_detuning
-- https://vision.huji.ac.il/ladeda
-- https://vision.huji.ac.il/dsire
-- https://horwitz.ai/podd
-- https://dreamix-video-editing.github.io
-- https://horwitz.ai/conffusion
-- https://horwitz.ai/3d_ads/
-- https://vision.huji.ac.il/ssrl_ad
-- https://vision.huji.ac.il/deepsim
+📧 yongzhiliu@seu.edu.cn · 📧 wezhuang@seu.edu.cn (Corresponding Author)
 
+**Under Review** · IEEE Transactions on Knowledge and Data Engineering (TKDE)
 
+---
 
-## Start using the template
-To start using the template click on `Use this Template`.
+## 📄 Abstract
 
-The template uses html for controlling the content and css for controlling the style. 
-To edit the websites contents edit the `index.html` file. It contains different HTML "building blocks", use whichever ones you need and comment out the rest.  
+Autonomous driving requires long-horizon closed-loop decision making in highly dynamic traffic environments. Latent world models offer an effective framework by enabling imagination-based planning in compact latent spaces. However, multi-source driving observations contain substantial control-irrelevant redundancy, and reliable decisions depend on risk-relevant relations and future dynamics. Moreover, vehicle control evolves continuously and incrementally, requiring models to capture action adjustments and their multi-step consequences.
 
-**IMPORTANT!** Make sure to replace the `favicon.ico` under `static/images/` with one of your own, otherwise your favicon is going to be a dreambooth image of me.
+We propose **LIDAR-AD** — a decoder-free latent-interaction Dreamer with residual-action chains. Instead of reconstructing observations, LIDAR-AD learns compact latent representations through **de-redundancy alignment**, focusing on risk-relevant interactions across multi-source driving inputs. To better capture the continuity and incrementality of vehicle control, LIDAR-AD formulates policy outputs as **residual action updates** with a **residual-action chain contrastive learning** objective, extracting temporal dependencies from action sequences for multi-step continuous decision making. Deterministic analysis further demonstrates that the latent-tanh residual parameterization represents smooth, long-horizon driving control as compact local updates — consistent with the concentration of residual actions observed in real driving data.
 
-## What's New
+Extensive experiments across diverse simulated driving scenarios demonstrate that LIDAR-AD consistently and significantly outperforms strong world-model baselines, achieving the highest reward and best success rates among learning-based methods. Evaluation on the nuPlan benchmark further validates the method's effectiveness on real-world driving data.
 
-- Modern, clean design with better mobile support
-- Improved SEO with proper meta tags and structured data
-- Performance improvements (lazy loading, optimized assets)
-- More Works dropdown
-- Copy button for BibTeX citations
-- Better accessibility
+---
 
-## Components
+## 🔑 Key Contributions
 
-- Teaser video
-- Image carousel
-- YouTube video embedding
-- Video carousel
-- PDF poster viewer
-- BibTeX citation
+1. **Decoder-Free Latent-Interaction Representation (DLIR)** — Eliminates observation reconstruction by structuring multi-source observations (ego-vehicle state, LiDAR point clouds, navigation maps) into interaction-aware latent representations via gated fusion and de-redundancy alignment.
 
-## Customization
+2. **Residual Action World Model (RAWM)** — Reformulates the policy as residual updates rather than absolute actions, with joint action embeddings that capture both current actions and their adjustments.
 
-The HTML file has TODO comments showing what to replace:
+3. **Action-Residual Chain Contrastive Learning (ARC-CL)** — Introduces K-step action chain contrastive learning that constrains the prior rollout dynamics using future action sequences as positive pairs.
 
-- Paper title, authors, institution, conference
-- Links (arXiv, GitHub, etc.)
-- Abstract and descriptions  
-- Videos, images, and PDFs
-- Related works in the dropdown
-- Meta tags for SEO and social sharing
+---
 
-### Meta Tags
-The template includes meta tags for better search engine visibility and social media sharing. These appear in the `<head>` section and help with:
-- Google Scholar indexing
-- Social media previews (Twitter, Facebook, LinkedIn)
-- Search engine optimization
+## 🧠 Method Overview
 
-Create a 1200x630px social preview image at `static/images/social_preview.png`.
+<p align="center">
+  <img src="static/images/LIDAR-AD/01_framework.png" alt="LIDAR-AD Framework" width="85%">
+</p>
 
-## Tips
+LIDAR-AD consists of three core modules sharing a unified RSSM latent state $s_t = (h_t, z_t)$:
 
-- Compress images with [TinyPNG](https://tinypng.com)
-- Use YouTube for large videos (>10MB)  
-- Replace the favicon in `static/images/`
-- Works with GitHub Pages
+| Module       | Role                                                      |
+|--------------|-----------------------------------------------------------|
+| **DLIR**     | Encodes heterogeneous observations into risk-aware latent representations without reconstruction |
+| **RAWM**     | Models continuous control as residual adjustments with joint action embeddings |
+| **ARC-CL**   | Enforces multi-step temporal consistency through contrastive learning over action chains |
 
-## Acknowledgments
-Parts of this project page were adopted from the [Nerfies](https://nerfies.github.io/) page.
+---
 
-## Website License
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+## 🎥 Driving Demonstrations
+
+We evaluate LIDAR-AD across multiple driving scenarios:
+
+- **MetaDrive Simulator** — Mixed traffic, roundabouts, T-intersections
+- **nuPlan Benchmark** — Real-world driving data with front-view and bird's-eye-view perspectives
+- **Risk Field Visualization** — Learned risk-aware representations in complex traffic
+
+👉 **[Visit the project page](https://lumen2023.github.io/lidar-ad-website/)** for interactive video comparisons and ablation studies.
+
+---
+
+## 📊 Key Results
+
+Extensive experiments on MetaDrive and nuPlan benchmarks demonstrate:
+
+- **Superior task performance** — LIDAR-AD achieves the highest episode reward and success rate among learning-based world model methods
+- **Better latent quality** — Decoder-free representations improve risk-awareness and generalization to out-of-distribution scenarios
+- **Smoother control** — Residual action modeling significantly reduces action jerk and improves trajectory smoothness
+- **Strong generalization** — Consistent gains across unseen traffic densities, road layouts, and interaction patterns
+
+---
+
+## 🗂️ Project Structure
+
+```
+.
+├── index.html              # Main project page
+├── static/
+│   ├── css/                # Stylesheets (Bulma, Font Awesome, custom)
+│   ├── js/                 # JavaScript (carousel, BibTeX copy, interactions)
+│   ├── images/LIDAR-AD/    # Figures and diagrams
+│   └── videos/             # Driving demonstration videos (MP4)
+│       ├── metadrive-scene/   # MetaDrive scenarios
+│       ├── nuplan/            # nuPlan benchmark
+│       └── risk_field/        # Risk field dynamics
+└── README.md
+```
+
+---
+
+## 📝 Citation
+
+If you find this work useful, please cite:
+
+```bibtex
+@article{liu2026lidarad,
+  title   = {{LIDAR-AD}: A Decoder-Free Latent-Interaction Dreamer
+             with Action-Residual Chains for Autonomous Driving},
+  author  = {Liu, Yongzhi and Xu, Jinchang and Kang, Zeng
+             and Zhang, Sunan and Zhuang, Weichao},
+  journal = {IEEE Transactions on Knowledge and Data Engineering},
+  note    = {Under Review},
+  year    = {2026}
+}
+```
+
+---
+
+## 🖥️ Local Development
+
+```bash
+# Start a local server
+python3 -m http.server 8000
+
+# Then open http://localhost:8000
+```
+
+---
+
+## 📜 License
+
+This project page is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The LIDAR-AD code and model weights will be released under a separate license.
+
+---
+
+## 🙏 Acknowledgments
+
+This project page template is adapted from the [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template) and the [Nerfies](https://nerfies.github.io/) project page.

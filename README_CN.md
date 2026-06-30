@@ -84,10 +84,19 @@ $$a_t = \tanh(u_t), \quad d_t = E_\text{act}([a_t; \Delta u_t])$$
 ### 训练曲线
 
 <p align="center">
-  <img src="static/images/LIDAR-AD/05_traing_curve.png" alt="训练曲线" width="92%">
+  <img src="static/images/LIDAR-AD/05_training_curves.png" alt="训练曲线" width="92%">
 </p>
 
-LIDAR-AD 收敛更快且最终性能高于所有对比基线。
+回报与成功率训练曲线，覆盖混合交通、环岛、T型路口和 nuPlan 四个场景。LIDAR-AD 收敛更快且最终性能高于所有对比基线。
+
+### 训练环境与实验平台
+
+<p align="center">
+  <img src="static/images/LIDAR-AD/05_Environment.png" alt="训练环境" width="44%">
+  <img src="static/images/LIDAR-AD/05_real_time_platform.png" alt="实时实验平台" width="44%">
+</p>
+
+MetaDrive 仿真器生成多样化交通场景用于训练；nuPlan 提供真实驾驶数据用于评估。实时实验平台配备完整传感器套件和计算硬件，用于闭环自动驾驶评测。
 
 ### 分布外泛化
 
@@ -97,9 +106,13 @@ LIDAR-AD 收敛更快且最终性能高于所有对比基线。
   <img src="static/images/LIDAR-AD/06_OOD-T-intersection.png" alt="OOD T型路口" width="30%">
 </p>
 
-在未见过的交通密度和道路布局上展现出强零样本泛化能力。
+<p align="center">
+  <img src="static/images/LIDAR-AD/06_ood_performance_bar.png" alt="OOD 性能对比柱状图" width="80%">
+</p>
 
-### 潜在表征分析 & 消融
+在未见过的交通密度和道路布局上展现出强零样本泛化能力。LIDAR-AD 在所有方法中取得最强的 OOD 性能。
+
+### 潜在表征分析、消融与轨迹
 
 <table>
 <tr>
@@ -108,6 +121,16 @@ LIDAR-AD 收敛更快且最终性能高于所有对比基线。
   <td width="33%"><img src="static/images/LIDAR-AD/09_action_comparison.png" width="100%"><br><em>控制平滑度对比</em></td>
 </tr>
 </table>
+
+<p align="center">
+  <img src="static/images/LIDAR-AD/09_Trajectories.png" alt="驾驶轨迹对比" width="92%">
+</p>
+
+<p align="center">
+  <img src="static/images/LIDAR-AD/10_arc_cl_horizon_ablation.png" alt="ARC-CL 链长消融" width="65%">
+</p>
+
+LIDAR-AD 产生更平滑、更稳定的驾驶轨迹，控制突变显著减少。残差动作链长度 K 的消融实验表明，更长的链长可改善长时域动力学预测，K=8 后收益递减。
 
 ### 风险场可视化
 
@@ -223,7 +246,7 @@ LIDAR-AD 收敛更快且最终性能高于所有对比基线。
 ├── static/
 │   ├── css/                           # 样式文件
 │   ├── js/                            # 交互脚本
-│   ├── images/LIDAR-AD/               # 13 张图片与示意图
+│   ├── images/LIDAR-AD/               # 19 张图片与示意图
 │   └── videos/                        # 18 个驾驶演示 (MP4)
 │       ├── metadrive-scene/           #   mixed / roundabout / T-intersection
 │       ├── nuplan/                    #   front-view + BEV

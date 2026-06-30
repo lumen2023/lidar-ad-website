@@ -84,10 +84,19 @@ The **latent-tanh** parameterization represents smooth long-horizon control as c
 ### Training Dynamics
 
 <p align="center">
-  <img src="static/images/LIDAR-AD/05_traing_curve.png" alt="Training Curves" width="92%">
+  <img src="static/images/LIDAR-AD/05_training_curves.png" alt="Training Curves" width="92%">
 </p>
 
-LIDAR-AD converges faster and achieves higher final performance than all compared baselines.
+Return and success-rate training curves across Mixed, Roundabout, T-Intersection, and nuPlan scenarios. LIDAR-AD converges faster and achieves higher final performance than all compared baselines.
+
+### Training Environments & Platform
+
+<p align="center">
+  <img src="static/images/LIDAR-AD/05_Environment.png" alt="Training Environments" width="44%">
+  <img src="static/images/LIDAR-AD/05_real_time_platform.png" alt="Real-time Platform" width="44%">
+</p>
+
+MetaDrive simulator generates diverse traffic scenarios for training; nuPlan provides real-world driving data for evaluation. The real-time experimental platform enables closed-loop testing with a full sensor suite.
 
 ### Out-of-Distribution Generalization
 
@@ -97,17 +106,31 @@ LIDAR-AD converges faster and achieves higher final performance than all compare
   <img src="static/images/LIDAR-AD/06_OOD-T-intersection.png" alt="OOD T-Intersection" width="30%">
 </p>
 
-Strong zero-shot generalization to unseen traffic densities and road layouts across all MetaDrive scenarios.
+<p align="center">
+  <img src="static/images/LIDAR-AD/06_ood_performance_bar.png" alt="OOD Performance Bar" width="80%">
+</p>
 
-### Latent Analysis & Ablation
+Strong zero-shot generalization to unseen traffic densities and road layouts across all MetaDrive scenarios. LIDAR-AD achieves the strongest OOD performance among all compared methods.
+
+### Latent Analysis, Ablation & Trajectories
 
 <table>
 <tr>
   <td width="33%"><img src="static/images/LIDAR-AD/07_barlow_representation.png" width="100%"><br><em>Barlow Twins representation analysis</em></td>
   <td width="33%"><img src="static/images/LIDAR-AD/08_ablation_performance_spectrum.png" width="100%"><br><em>Ablation performance spectrum</em></td>
-  <td width="33%"><img src="static/images/LIDAR-AD/09_action_comparison.png" width="100%"><br><em>Smoothness: LIDAR-AD vs baselines</em></td>
+  <td width="33%"><img src="static/images/LIDAR-AD/09_action_comparison.png" width="100%"><br><em>Control smoothness comparison</em></td>
 </tr>
 </table>
+
+<p align="center">
+  <img src="static/images/LIDAR-AD/09_Trajectories.png" alt="Driving Trajectories" width="92%">
+</p>
+
+<p align="center">
+  <img src="static/images/LIDAR-AD/10_arc_cl_horizon_ablation.png" alt="ARC-CL Horizon Ablation" width="65%">
+</p>
+
+LIDAR-AD produces smoother, more stable trajectories with fewer abrupt control changes. Ablation over the action-residual chain horizon K shows longer horizons improve long-horizon dynamics prediction, with diminishing returns beyond K=8.
 
 ### Risk Field Visualization
 
@@ -223,7 +246,7 @@ Decoder-free representations enable risk-aware scene understanding — learned r
 ├── static/
 │   ├── css/                           # Stylesheets (Bulma, Font Awesome)
 │   ├── js/                            # JavaScript (carousel, interactions)
-│   ├── images/LIDAR-AD/               # 13 figures & diagrams
+│   ├── images/LIDAR-AD/               # 19 figures & diagrams
 │   └── videos/                        # 18 driving demos (MP4)
 │       ├── metadrive-scene/           #   mixed / roundabout / T-intersection
 │       ├── nuplan/                    #   front-view + BEV

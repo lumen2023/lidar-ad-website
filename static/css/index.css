@@ -1365,7 +1365,7 @@ a:focus {
 }
 
 .results-figures {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
 .analysis-grid figure,
@@ -1513,6 +1513,58 @@ a:focus {
   font-size: 0.92rem;
   margin-top: 0.75rem;
   text-align: center;
+}
+
+.environment-panel {
+  margin-top: 2.5rem;
+}
+
+.environment-panel .title {
+  margin-bottom: 1.5rem;
+}
+
+.environment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.environment-grid figure {
+  margin: 0;
+  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.environment-grid img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.environment-grid figcaption {
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+  line-height: 1.5;
+  margin-top: 0.7rem;
+  text-align: center;
+}
+
+.trajectories-panel figure {
+  margin: 0;
+  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.trajectories-panel img {
+  width: 100%;
+  border-radius: 6px;
 }
 
 .ood-panel {
@@ -1798,6 +1850,10 @@ a:focus {
   .compact-section {
     padding-top: 3rem;
     padding-bottom: 3rem;
+  }
+
+  .environment-grid {
+    grid-template-columns: 1fr;
   }
 
   .resource-card p {

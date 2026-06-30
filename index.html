@@ -445,7 +445,7 @@
                 <td>802.48 &plusmn; 109.65</td><td>85.75 &plusmn; 4.68</td><td>23.39 &plusmn; 5.64</td>
                 <td>836.48 &plusmn; 85.05</td><td>85.64 &plusmn; 0.83</td><td>24.29 &plusmn; 4.15</td>
                 <td>768.48 &plusmn; 96.69</td><td>81.64 &plusmn; 1.07</td><td>22.39 &plusmn; 4.84</td>
-                <td>87.30 &plusmn; 6.40</td><td>87.30 &plusmn; 6.40</td><td>26.29 &plusmn; 3.29</td>
+                <td>207.30 &plusmn; 8.20</td><td>87.30 &plusmn; 6.40</td><td>26.29 &plusmn; 3.29</td>
               </tr>
               <tr>
                 <td>R2Dreamer</td>
@@ -471,12 +471,16 @@
 
         <div class="results-figures">
           <figure>
-            <img src="static/images/LIDAR-AD/05_traing_curve.png" alt="Training curves for LIDAR-AD and baselines" loading="lazy">
-            <figcaption>Training curves compare return and success trends across learning methods.</figcaption>
+            <img src="static/images/LIDAR-AD/05_training_curves.png" alt="Training curves for LIDAR-AD and baselines across all scenarios" loading="lazy">
+            <figcaption>Return and success-rate training curves across Mixed, Roundabout, T-Intersection, and nuPlan scenarios. LIDAR-AD converges faster and achieves higher final performance than all baselines.</figcaption>
           </figure>
           <figure>
             <img src="static/images/LIDAR-AD/08_ablation_performance_spectrum.png" alt="Ablation performance spectrum" loading="lazy">
-            <figcaption>The performance spectrum summarizes module contributions across evaluation dimensions.</figcaption>
+            <figcaption>The performance spectrum summarizes module contributions (DLIR, RAWM, ARC-CL) across reward, success, and smoothness dimensions.</figcaption>
+          </figure>
+          <figure>
+            <img src="static/images/LIDAR-AD/10_arc_cl_horizon_ablation.png" alt="ARC-CL horizon K ablation study" loading="lazy">
+            <figcaption>Ablation over the action-residual chain horizon K. Longer horizons improve long-horizon dynamics prediction and final driving performance, with diminishing returns beyond K=8.</figcaption>
           </figure>
         </div>
 
@@ -496,6 +500,12 @@
               <figcaption>T-Intersection</figcaption>
             </figure>
           </div>
+        <div class="trajectories-panel" style="margin-top: 2.5rem;">
+          <h3 class="title is-4 has-text-centered">Driving Trajectories &amp; Action Analysis</h3>
+          <figure>
+            <img src="static/images/LIDAR-AD/09_Trajectories.png" alt="Driving trajectories and action smoothness comparison" loading="lazy" style="max-width: 100%; border-radius: 8px; box-shadow: var(--shadow-md);">
+            <figcaption style="text-align: center; color: var(--text-secondary); font-size: 0.94rem; margin-top: 0.7rem;">Visual comparison of driving trajectories across MetaDrive and nuPlan scenarios. LIDAR-AD produces smoother, more stable trajectories with fewer abrupt control changes compared to baselines.</figcaption>
+          </figure>
         </div>
       </div>
     </section>

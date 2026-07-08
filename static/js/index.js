@@ -171,6 +171,23 @@ function setupVideoSwitcher() {
     });
 }
 
+function setupVisitCounterFallback() {
+    const counterIds = [
+        'busuanzi_value_site_pv',
+        'busuanzi_value_site_uv',
+        'busuanzi_value_page_pv'
+    ];
+
+    window.setTimeout(function() {
+        counterIds.forEach(function(id) {
+            const element = document.getElementById(id);
+            if (element && element.textContent.trim() === '--') {
+                element.textContent = 'unavailable';
+            }
+        });
+    }, 8000);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     var options = {
 		slidesToScroll: 1,
@@ -193,5 +210,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Setup video autoplay for carousel
     setupVideoCarouselAutoplay();
     setupVideoSwitcher();
+    setupVisitCounterFallback();
 
 });

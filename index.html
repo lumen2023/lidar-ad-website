@@ -6,7 +6,7 @@
   <meta name="title" content="LIDAR-AD: A Decoder-Free Latent-Interaction Dreamer with Action-Residual Chains for Autonomous Driving">
   <meta name="description" content="LIDAR-AD is a decoder-free latent-interaction Dreamer with action-residual chains for autonomous driving, improving risk-aware representation, smooth control, and long-horizon dynamics prediction.">
   <meta name="keywords" content="Autonomous Driving, World Models, Reinforcement Learning, LiDAR, Latent Representation, Residual Actions, Contrastive Learning, MetaDrive, nuPlan">
-  <meta name="author" content="Yongzhi Liu, Yang Xiao, Zeng Kang, Sunan Zhang, Weichao Zhuang">
+  <meta name="author" content="Yongzhi Liu, Yang Xiao, Zhong Cao, Zeng Kang, Sunan Zhang, Zhaozhi Dong, Guojun Yu, Weichao Zhuang">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#2563eb">
 
@@ -25,8 +25,11 @@
   <meta name="citation_title" content="LIDAR-AD: A Decoder-Free Latent-Interaction Dreamer with Action-Residual Chains for Autonomous Driving">
   <meta name="citation_author" content="Liu, Yongzhi">
   <meta name="citation_author" content="Xiao, Yang">
+  <meta name="citation_author" content="Cao, Zhong">
   <meta name="citation_author" content="Kang, Zeng">
   <meta name="citation_author" content="Zhang, Sunan">
+  <meta name="citation_author" content="Dong, Zhaozhi">
+  <meta name="citation_author" content="Yu, Guojun">
   <meta name="citation_author" content="Zhuang, Weichao">
   <meta name="citation_publication_date" content="2026">
   <meta name="citation_conference_title" content="Under Review">
@@ -35,7 +38,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
@@ -45,6 +48,7 @@
   <script defer src="static/js/bulma-carousel.min.js"></script>
   <script defer src="static/js/bulma-slider.min.js"></script>
   <script defer src="static/js/index.js"></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
   <script type="application/ld+json">
   {
@@ -55,9 +59,17 @@
     "author": [
       {"@type": "Person", "name": "Yongzhi Liu", "affiliation": {"@type": "Organization", "name": "Southeast University"}},
       {"@type": "Person", "name": "Yang Xiao", "affiliation": {"@type": "Organization", "name": "Southeast University"}},
+      {"@type": "Person", "name": "Zhong Cao", "affiliation": {"@type": "Organization", "name": "University of Michigan"}},
       {"@type": "Person", "name": "Zeng Kang", "affiliation": {"@type": "Organization", "name": "Southeast University"}},
       {"@type": "Person", "name": "Sunan Zhang", "affiliation": {"@type": "Organization", "name": "Southeast University"}},
+      {"@type": "Person", "name": "Zhaozhi Dong", "affiliation": {"@type": "Organization", "name": "Southeast University"}},
+      {"@type": "Person", "name": "Guojun Yu", "affiliation": {"@type": "Organization", "name": "Xheart Technology Co., Ltd."}},
       {"@type": "Person", "name": "Weichao Zhuang", "affiliation": {"@type": "Organization", "name": "Southeast University"}}
+    ],
+    "funder": [
+      {"@type": "Organization", "name": "Excellent Youth Fund Project of the Jiangsu Basic Research Program", "identifier": "BK20250172"},
+      {"@type": "Organization", "name": "Major Science and Technology Special Project of Jiangsu Province", "identifier": "BG2025018"},
+      {"@type": "Organization", "name": "National Natural Science Foundation of China", "identifier": "52441204"}
     ],
     "datePublished": "2026",
     "isAccessibleForFree": true,
@@ -101,13 +113,20 @@
           <div class="is-size-5 publication-authors">
             <span class="author-block">Yongzhi Liu,</span>
             <span class="author-block">Yang Xiao,</span>
+            <span class="author-block">Zhong Cao,</span>
             <span class="author-block">Zeng Kang,</span>
             <span class="author-block">Sunan Zhang,</span>
+            <span class="author-block">Zhaozhi Dong,</span>
+            <span class="author-block">Guojun Yu,</span>
             <span class="author-block">Weichao Zhuang</span>
           </div>
 
           <div class="is-size-5 publication-authors project-affiliation">
-            School of Mechanical Engineering, Southeast University
+            <span>Southeast University</span>
+            <span class="affiliation-separator">/</span>
+            <span>University of Michigan</span>
+            <span class="affiliation-separator">/</span>
+            <span>Xheart Technology Co., Ltd.</span>
             <br>
             Email:
             <a href="mailto:yongzhiliu@seu.edu.cn">yongzhiliu@seu.edu.cn</a>
@@ -504,12 +523,13 @@
               <figcaption>T-Intersection</figcaption>
             </figure>
           </div>
-        <div class="trajectories-panel" style="margin-top: 2.5rem;">
-          <h3 class="title is-4 has-text-centered">Driving Trajectories &amp; Action Analysis</h3>
-          <figure>
-            <img src="static/images/LIDAR-AD/09_Trajectories.png" alt="Driving trajectories and action smoothness comparison" loading="lazy" style="max-width: 100%; border-radius: 8px; box-shadow: var(--shadow-md);">
-            <figcaption style="text-align: center; color: var(--text-secondary); font-size: 0.94rem; margin-top: 0.7rem;">Visual comparison of driving trajectories across MetaDrive and nuPlan scenarios. LIDAR-AD produces smoother, more stable trajectories with fewer abrupt control changes compared to baselines.</figcaption>
-          </figure>
+          <div class="trajectories-panel" style="margin-top: 2.5rem;">
+            <h3 class="title is-4 has-text-centered">Driving Trajectories &amp; Action Analysis</h3>
+            <figure>
+              <img src="static/images/LIDAR-AD/09_Trajectories.png" alt="Driving trajectories and action smoothness comparison" loading="lazy" style="max-width: 100%; border-radius: 8px; box-shadow: var(--shadow-md);">
+              <figcaption style="text-align: center; color: var(--text-secondary); font-size: 0.94rem; margin-top: 0.7rem;">Visual comparison of driving trajectories across MetaDrive and nuPlan scenarios. LIDAR-AD produces smoother, more stable trajectories with fewer abrupt control changes compared to baselines.</figcaption>
+            </figure>
+          </div>
         </div>
       </div>
     </section>
@@ -553,10 +573,16 @@
         </div>
         <pre id="bibtex-code"><code>@article{liu2026lidarad,
   title={LIDAR-AD: A Decoder-Free Latent-Interaction Dreamer with Action-Residual Chains for Autonomous Driving},
-  author={Liu, Yongzhi and Yang, Xiao and Kang, Zeng and Zhang, Sunan and Zhuang, Weichao},
+  author={Liu, Yongzhi and Yang, Xiao and Cao, Zhong and Kang, Zeng and Zhang, Sunan and Dong, Zhaozhi and Yu, Guojun and Zhuang, Weichao},
   journal={Under Review},
   year={2026}
 }</code></pre>
+        <div class="funding-note">
+          <h3>Funding</h3>
+          <p>
+            This work was supported in part by the Excellent Youth Fund Project of the Jiangsu Basic Research Program under Grant BK20250172, in part by the Major Science and Technology Special Project of Jiangsu Province under Grant BG2025018, and in part by the National Natural Science Foundation of China (NSFC) under Grant 52441204.
+          </p>
+        </div>
       </div>
     </section>
   </main>
@@ -569,8 +595,16 @@
         <p>
           For questions about this work, please contact
           <a href="mailto:yongzhiliu@seu.edu.cn">yongzhiliu@seu.edu.cn</a>
-          or advisor Weichao Zhuang at
+          or corresponding author Weichao Zhuang at
           <a href="mailto:wezhuang@seu.edu.cn">wezhuang@seu.edu.cn</a>.
+        </p>
+        <p class="footer-affiliations">
+          Yongzhi Liu, Yang Xiao, Zeng Kang, Sunan Zhang, Zhaozhi Dong, and Weichao Zhuang are with the School of Mechanical Engineering, Southeast University, Nanjing, Jiangsu 211189, China. Zhong Cao is with the Department of Civil and Environmental Engineering, University of Michigan, Ann Arbor, MI 48109, USA. Guojun Yu is with Xheart Technology Co., Ltd., Suzhou, Jiangsu 215100, China.
+        </p>
+        <p class="visit-counter" aria-label="Website visit statistics">
+          <span id="busuanzi_container_site_pv">Site views: <strong id="busuanzi_value_site_pv">--</strong></span>
+          <span id="busuanzi_container_site_uv">Visitors: <strong id="busuanzi_value_site_uv">--</strong></span>
+          <span id="busuanzi_container_page_pv">Page views: <strong id="busuanzi_value_page_pv">--</strong></span>
         </p>
         <p class="template-credit">
           Page structure follows the academic project-page style and uses Bulma.

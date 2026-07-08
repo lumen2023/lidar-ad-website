@@ -905,6 +905,11 @@ a:focus {
   overflow-wrap: anywhere;
 }
 
+.affiliation-separator {
+  color: var(--text-light);
+  margin: 0 0.35rem;
+}
+
 .publication-links {
   display: flex;
   justify-content: center;
@@ -1629,6 +1634,27 @@ a:focus {
   overflow-x: auto;
 }
 
+.funding-note {
+  margin-top: 1.5rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.funding-note h3 {
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin-bottom: 0.45rem;
+}
+
+.funding-note p {
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0;
+}
+
 .project-footer {
   background: #101827;
   color: #cbd5e1;
@@ -1642,6 +1668,38 @@ a:focus {
 .template-credit {
   color: #94a3b8;
   font-size: 0.9rem;
+}
+
+.footer-affiliations {
+  color: #aab8cb;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.visit-counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0.35rem 0 0.75rem;
+  color: #dbe4ef;
+  font-size: 0.9rem;
+}
+
+.visit-counter span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.32rem 0.58rem;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.visit-counter strong {
+  color: #ffffff;
+  font-weight: 800;
 }
 
 @media screen and (max-width: 1024px) {
